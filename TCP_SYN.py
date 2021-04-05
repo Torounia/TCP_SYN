@@ -85,6 +85,7 @@ def TCP_SYN_port_scan(dict, ports):
             # if the answer is "SYN AKN" or 0x12 in hex, append the port to the results dictonary as open
             if answer[1][TCP].flags == 0x12:
                 hosts[host]["ports"][answer[1][TCP].sport] = "open"
+                #send a TCP reset flag to terminate the connection
                 send(IP(dst=host) / TCP(dport=answer[1][TCP].sport, flags="R"), verbose= False)
             # if the answer is "RESET" append the port to the results dictonary as closed
             elif answer[1][TCP].flags == 0x14:
